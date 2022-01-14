@@ -1,0 +1,22 @@
+.film-wrapper {
+    margin: 20px 0px;
+}
+.filter-section {
+    margin-top: 10px;
+    button:not(:disabled) {
+        cursor: pointer;
+    }
+    button:disabled {
+        cursor: not-allowed;
+    }
+}
+label, .filter-section-label {
+    margin-right: 10px;
+    font-size: 14px;
+    color: #333;
+}
+.filter-input {
+    border-radius: 2px;
+    padding: 5px;
+    border: 1px solid #a5b6c3;
+}

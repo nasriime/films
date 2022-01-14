@@ -1,4 +1,5 @@
 import ReactPaginate from 'react-paginate';
+import "./styles.scss";
 
 const Pagination=({pageCount, onPageChange, forcePage})=>{
 return(

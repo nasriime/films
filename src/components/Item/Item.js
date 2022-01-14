@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
+import "./styles.scss"
 
 const Item = ({item})=> {
     const {title, director, year} = item;
@@ -10,14 +11,15 @@ const Item = ({item})=> {
         <div       
           data-testid="singleItem" 
           onClick={()=>{ navigate("/details", {
-            state: {
-              item
-            }
-          }) 
-        }}>
-            <p>{title}</p>
-            <p>{director}</p>
-            <p>{year}</p>
+              state: {
+                item
+              }
+            }) 
+          }}
+          className='film-item'
+        >
+            <div className='film-title'>{title} ({year})</div>
+            <span className='film-director'>By: {director}</span>
         </div>
     )
 }

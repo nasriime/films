@@ -2,6 +2,7 @@ import React, {useEffect, useState, useCallback}  from 'react'
 import Item from "../Item/Item";
 import Pagination from "../Pagination/Pagination";
 import { debounce } from '../../utils';
+import "./styles.scss";
 
 const List = ()=> {
     const [data, setData] = useState([]);
@@ -17,8 +18,8 @@ const List = ()=> {
             .then(
               (res) => {
                 setPageCount(Math.ceil(res.length / itemsPerPage));
-                const uniqueArr= [...new Map(res.map(item => [item["title"], item])).values()];
-                const sortedArr = uniqueArr.sort((a,b) => a.title - b.title);
+                // const uniqueArr= [...new Map(res.map(item => [item["title"], item])).values()];
+                const sortedArr = res.sort((a,b) => a.title - b.title);
                 const result = sortedArr.map((item, idx)=>({
                     id: idx,
                     title: item.title,
@@ -53,7 +54,7 @@ const List = ()=> {
 
     const changeSorting = (dir)=>{
         setOrder(dir);
-        setData(data.reverse());
+        setPageItems(data.reverse());
     }
 
     const debouncedChangeHandler = useCallback(
@@ -75,9 +76,17 @@ const List = ()=> {
 
     return (
         <div>
-            <input type="text" onChange={debouncedChangeHandler}/> 
-            <div className="ordering--btns">
-                <span>Filter by film title:</span>
+            <label htmlFor='film-title'>Search by film title: </label>
+            <input 
+                className='filter-input'
+                id="film-title"
+                name="Search by film title" 
+                type="text" 
+                onChange={debouncedChangeHandler} 
+                placeholder='Enter Film title'
+            /> 
+            <div className="filter-section">
+                <span className='filter-section-label'>Sort film title:</span>
                 <button 
                     type="button" 
                     className="btn btn-light" 
@@ -93,10 +102,12 @@ const List = ()=> {
                     ASC
                 </button>
             </div>
-             {pageItems.length > 0 && pageItems.map(item=>(
-                <Item key={item.id} item={item} />
-                )
-             )} 
+            <div className='film-wrapper'>
+                {pageItems.length > 0 && pageItems.map(item=>(
+                    <Item key={item.id} item={item} />
+                    )
+                )}
+             </div>
             <Pagination 
               pageCount={pageCount} 
               forcePage={forcePage}
