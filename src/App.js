@@ -1,10 +1,12 @@
 import './App.scss';
+import List from "./components/List/List";
+import MainContextProvider from './contexts';
 
 function App() {
   return (
-    <div className="App">
-      App
-    </div>
+    <MainContextProvider>
+      <List />
+    </MainContextProvider>
   );
 }
 
