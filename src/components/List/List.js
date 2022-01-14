@@ -59,7 +59,7 @@ const List = ()=> {
     const changeSorting = (dir)=>{
         setOrder(dir);
         setData(data.reverse());
-        changePreviewInPage(0);
+        changePreviewInPage(forcePage);
     }
 
     const debouncedChangeHandler = useCallback(
