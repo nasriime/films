@@ -19,8 +19,8 @@ const List = ()=> {
               (res) => {
                 setPageCount(Math.ceil(res.length / itemsPerPage));
                 // const uniqueArr= [...new Map(res.map(item => [item["title"], item])).values()];
-                const sortedArr = res.sort((a,b) => a.title - b.title);
-                const result = sortedArr.map((item, idx)=>({
+                //const sortedArr = res.sort((a,b) => a.title - b.title);
+                const result = res.map((item, idx)=>({
                     id: idx,
                     title: item.title,
                     year: item.release_year,
@@ -58,7 +58,8 @@ const List = ()=> {
 
     const changeSorting = (dir)=>{
         setOrder(dir);
-        setPageItems(data.reverse());
+        setData(data.reverse());
+        changePreviewInPage(0);
     }
 
     const debouncedChangeHandler = useCallback(
@@ -106,16 +107,20 @@ const List = ()=> {
                     ASC
                 </button>
             </div>
-            <div className='film-wrapper'>
-                {pageItems.length > 0 && pageItems.map(item=>(
-                    <Item key={item.id} item={item} />
-                    )
-                )}
-             </div>
-            <Pagination 
-              pageCount={pageCount} 
-              forcePage={forcePage}
-              onPageChange={(selectedPage)=>onPageChange(selectedPage)}/>
+            {pageItems.length > 0 && 
+                <>
+                    <div className='film-wrapper'>
+                        { pageItems.map(item=>(
+                            <Item key={item.id} item={item} />
+                            )
+                        )}
+                    </div>
+                    <Pagination 
+                    pageCount={pageCount} 
+                    forcePage={forcePage}
+                    onPageChange={(selectedPage)=>onPageChange(selectedPage)}
+                    />
+                </>}
         </div>
     )
 }

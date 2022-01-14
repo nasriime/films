@@ -2,3 +2,23 @@ body {
     margin: 20px;
     background-color: #ecf1f5;
 }
+button {
+    background-color: #1d62ad;
+    color: #fff;
+    font-weight: 700;
+    border: none;
+    border-radius: 2px;
+    padding: 5px 10px;
+    margin: 0px 5px;
+    border: 2px solid #1d62ad;
+    cursor: pointer;
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+    &:hover:not(:disabled) {
+        background-color: #fff;
+        color: #1d62ad;
+        border: 2px solid #1d62ad;
+    }
+}

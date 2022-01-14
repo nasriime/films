@@ -3,12 +3,6 @@
 }
 .filter-section {
     margin-top: 10px;
-    button:not(:disabled) {
-        cursor: pointer;
-    }
-    button:disabled {
-        cursor: not-allowed;
-    }
 }
 label, .filter-section-label {
     margin-right: 10px;
