@@ -6,33 +6,46 @@ const List = ()=> {
     const [data, setData] = useState([]);
     const [order, setOrder] = useState('DESC');
 
-
-    useEffect(() => {
-        const url = "https://data.sfgov.org/resource/yitu-d5am.json";
+    const fetchingData = (url)=>{
         fetch(url)
             .then(res => res.json())
             .then(
               (res) => {
-                const uniqueArr  =[...new Map(res.map(item => [item["title"], item])).values()]
+                const sortedArray = res.sort((a,b) => a.title - b.title);
+                const uniqueArr  =[...new Map(sortedArray.map(item => [item["title"], item])).values()]
                 const result = uniqueArr.splice(0, 10).map((item, idx)=>({
                     id: idx,
                     title: item.title,
                     year: item.release_year,
                     director: item.director
                 }));
-                console.log("result", result)
                 setData(result);
               },
               (err) => {
                   console.log('err', err)
               }
             )
+    }
+
+
+    useEffect(() => {
+        const url = "https://data.sfgov.org/resource/yitu-d5am.json";
+        fetchingData(url);
     }, []);
 
-    
-
     const _onChange=(e)=>{
-        console.log('e.target.value', e.target.value)
+        const title = e.target.value;
+        const url = `https://data.sfgov.org/resource/yitu-d5am.json`;
+        if(title === ""){
+            fetchingData(url);
+            return;
+        }
+        fetchingData(`${url}?title=${title}`);
+    }
+
+    const changeSorting = (dir)=>{
+        setOrder(dir);
+        setData(data.reverse());
     }
 
     const debouncedChangeHandler = useCallback(
@@ -47,14 +60,14 @@ const List = ()=> {
                 <button 
                     type="button" 
                     className="btn btn-light" 
-                    onClick={()=> setOrder('DESC')} 
+                    onClick={()=> changeSorting('DESC')} 
                     disabled={order === 'DESC'}>
                         DESC
                 </button>
                 <button 
                     type="button" 
                     className="btn btn-light" 
-                    onClick={()=> setOrder('ASC')} 
+                    onClick={()=> changeSorting('ASC')} 
                     disabled={order === 'ASC'}>
                     ASC
                 </button>
