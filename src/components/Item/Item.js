@@ -1,9 +1,12 @@
 import React from 'react'
 
-const Item = ()=> {
+const Item = ({item})=> {
+    const {title, director, year} = item;
     return (
         <div>
-            Item
+            <p>{title}</p>
+            <p>{director}</p>
+            <p>{year}</p>
         </div>
     )
 }

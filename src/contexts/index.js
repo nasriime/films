@@ -8,7 +8,7 @@ import React, { createContext, useState } from "react";
 
 
     return(
-        <MainContext.Provider value={{ data, setData }} >
+        <MainContext.Provider value={{ data, setData }}>
             {props.children}
         </MainContext.Provider>
     )
