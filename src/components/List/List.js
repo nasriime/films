@@ -107,7 +107,7 @@ const List = ()=> {
                     ASC
                 </button>
             </div>
-            {pageItems.length > 0 && 
+            {pageItems.length > 0 ?
                 <>
                     <div className='film-wrapper'>
                         { pageItems.map(item=>(
@@ -120,7 +120,8 @@ const List = ()=> {
                     forcePage={forcePage}
                     onPageChange={(selectedPage)=>onPageChange(selectedPage)}
                     />
-                </>}
+                </>
+                : <div className="no-results">No results found</div>}
         </div>
     )
 }
