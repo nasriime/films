@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { useNavigate } from "react-router-dom";
 
 const Item = ({item})=> {
@@ -7,7 +7,9 @@ const Item = ({item})=> {
 
 
     return (
-        <div onClick={()=>{ navigate("/details", {
+        <div       
+          data-testid="singleItem" 
+          onClick={()=>{ navigate("/details", {
             state: {
               item
             }
