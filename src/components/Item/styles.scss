@@ -1,9 +1,13 @@
 .film-item {
+    background-color: #fff;
     border: 1px solid #a5b6c3;
     font-size: 16px;
     margin: 0px 0px 10px;
     padding: 5px;
     cursor: pointer;
+    &:hover {
+        background-color: #ececec;
+    }
     .film-title {
         font-weight: 700;
         color: #333;

@@ -24,7 +24,11 @@ const List = ()=> {
                     id: idx,
                     title: item.title,
                     year: item.release_year,
-                    director: item.director
+                    director: item.director,
+                    actors: item.actor_1+", "+item.actor_2+", "+item.actor_3,
+                    locations: item.locations,
+                    production: item.production_company,
+                    writer: item.writer,
                 }));
                 const slicedArray = result.slice(0, itemsPerPage);
                 setPageItems(slicedArray);
