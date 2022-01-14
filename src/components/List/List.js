@@ -1,24 +1,32 @@
 import React, {useEffect, useState, useCallback}  from 'react'
 import Item from "../Item/Item";
+import Pagination from "../Pagination/Pagination";
 import { debounce } from '../../utils';
 
 const List = ()=> {
     const [data, setData] = useState([]);
+    const [pageItems, setPageItems] = useState([]);
     const [order, setOrder] = useState('DESC');
+    const [pageCount, setPageCount] = useState(1);
+    const [forcePage, setForcePage] = useState(0);
+    const itemsPerPage= 12;
 
     const fetchingData = (url)=>{
         fetch(url)
             .then(res => res.json())
             .then(
               (res) => {
-                const sortedArray = res.sort((a,b) => a.title - b.title);
-                const uniqueArr  =[...new Map(sortedArray.map(item => [item["title"], item])).values()]
-                const result = uniqueArr.splice(0, 10).map((item, idx)=>({
+                setPageCount(Math.ceil(res.length / itemsPerPage));
+                const uniqueArr= [...new Map(res.map(item => [item["title"], item])).values()];
+                const sortedArr = uniqueArr.sort((a,b) => a.title - b.title);
+                const result = sortedArr.map((item, idx)=>({
                     id: idx,
                     title: item.title,
                     year: item.release_year,
                     director: item.director
                 }));
+                const slicedArray = result.slice(0, itemsPerPage);
+                setPageItems(slicedArray);
                 setData(result);
               },
               (err) => {
@@ -52,6 +60,19 @@ const List = ()=> {
         debounce(_onChange, 300)
     , []);
 
+    const changePreviewInPage=(page)=>{
+        let offset = Math.ceil((page+1) * itemsPerPage);
+        const newItems = data.slice(offset-itemsPerPage, offset);
+        setPageItems(newItems);
+        setForcePage(page);
+      }
+
+    const onPageChange = (pageObj)=>{
+        window.scrollTo(0, 0);
+        let page = pageObj.selected;
+        changePreviewInPage(page);
+      }
+
     return (
         <div>
             <input type="text" onChange={debouncedChangeHandler}/> 
@@ -72,10 +93,14 @@ const List = ()=> {
                     ASC
                 </button>
             </div>
-             {data.length > 0 && data.map(item=>(
+             {pageItems.length > 0 && pageItems.map(item=>(
                 <Item key={item.id} item={item} />
                 )
              )} 
+            <Pagination 
+              pageCount={pageCount} 
+              forcePage={forcePage}
+              onPageChange={(selectedPage)=>onPageChange(selectedPage)}/>
         </div>
     )
 }
